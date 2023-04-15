@@ -5,9 +5,9 @@ import { HTTPMethod, Service, Request, request } from './_abstract'
 
 
 const Requests = {
-    departments: new Request<Department[]>(HTTPMethod.get, "v1/department"),
-    employees: new Request<Employee[]>(HTTPMethod.get, 'v1/employees')
-}
+	departments: new Request<Department[]>(HTTPMethod.get, 'v1/departments'),
+	employees: new Request<Employee[]>(HTTPMethod.get, 'v1/employees'),
+};
 
 class Backend implements Service {
     baseUrl = process.env.REACT_APP_API_HOST
