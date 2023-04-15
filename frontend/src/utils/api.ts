@@ -10,15 +10,29 @@ const Requests = {
 };
 
 class Backend implements Service {
-    baseUrl = process.env.REACT_APP_API_HOST
+	baseUrl = process.env.REACT_APP_API_HOST;
 
-    async listEmployees(): Promise<Employee[]> {
-        return request(this, Requests.employees).call()
-    }
+	async listEmployee(id: number): Promise<Employee> {
+		return request(
+			this,
+			new Request<Employee>(HTTPMethod.get, `v1/employees/${id}`)
+		).call();
+	}
 
-    async listDepartments(): Promise<Department[]> {
-        return request(this, Requests.departments).call()
-    }
+	async listDepartment(id: number): Promise<Department> {
+		return request(
+			this,
+			new Request<Department>(HTTPMethod.get, `v1/departments/${id}`)
+		).call();
+	}
+
+	async listEmployees(): Promise<Employee[]> {
+		return request(this, Requests.employees).call();
+	}
+
+	async listDepartments(): Promise<Department[]> {
+		return request(this, Requests.departments).call();
+	}
 }
 
 

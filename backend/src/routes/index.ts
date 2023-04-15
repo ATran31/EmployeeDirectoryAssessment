@@ -77,4 +77,15 @@ router.get('/v1/employees', (_unused: Request, res: Response) => {
 	res.send(employees);
 });
 
+router.get('/v1/employees/:id', (_req: Request, res: Response) => {
+	const { id: employeeId } = _req.params;
+	const record = employees.filter(
+		(emp) => parseInt(employeeId) === emp.id
+	)[0];
+	if (record) {
+		return res.status(200).json(record);
+	}
+	return res.status(404).end();
+});
+
 export default router;

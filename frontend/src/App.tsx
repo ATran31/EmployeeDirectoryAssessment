@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Employee } from "./models/Models";
-import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import GenericAppBar from './components/GenericAppBar';
 import { EmployeeList } from "./components/EmployeeList";
 import { EmployeeDetail } from "./components/EmployeeDetail";
