@@ -11,8 +11,9 @@ describe('#employees', () => {
 		expect(res.status).to.equal(200);
 		expect(res.body).not.to.be.empty;
 		expect(res.body).to.be.an('array');
-		expect(res.body.length).to.equal(5);
-		expect(res.body[0].id).to.equal('82837');
+		expect(res.body.length).to.equal(5); // Discuss the merit of testing things like this here. Does my function work vs is my data correct are very separate concerns.
+		expect(res.body[0].id).to.be.a('number');
+		expect(res.body[0].id).to.equal(82837);
 		expect(res.body.error).to.be.undefined;
 	});
 });
