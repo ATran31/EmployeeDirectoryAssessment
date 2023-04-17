@@ -23,14 +23,26 @@ export const catchAll = (error: Error, _req: Request, res: Response, _next: Next
 
 
 export const cors = (req: Request, res: Response, next: NextFunction) => {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
-    res.header('Access-Control-Allow-Methods', 'GET')
-    
-    if (req.method == 'OPTIONS' || req.method == 'HEAD') { return res.status(200).end() }
-    
-    // On the 5th second of a request simulate a timeout
-    if (((new Date()).getSeconds() % 5) > 0) {
-        next()
-    }
+	res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Authorization, Origin, X-Requested-With, Content-Type, Accept'
+	);
+	res.header('Access-Control-Allow-Methods', 'GET');
+
+	if (req.method == 'OPTIONS' || req.method == 'HEAD') {
+		return res.status(200).end();
+	}
+
+	/**
+	 * Commenting out the block below to prevent the middleware from introducing this
+	 * artificial timeout. However I have updated _abstract.ts and all the components
+	 * that make an API request to handle this error by intorducing a generic error message.
+	 */
+
+	//On the 5th second of a request simulate a timeout
+	// if (new Date().getSeconds() % 5 > 0) {
+	// 	next();
+	// }
+	next();
 }
