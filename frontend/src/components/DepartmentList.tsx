@@ -16,6 +16,8 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { LinkedUser } from './LinkedUser';
+import { GenericErrorMessage } from './GenericErrorMessage';
+import { CircularProgress, Grid } from '@mui/material';
 
 function Row(props: { row: Department }) {
 	const { row } = props;
@@ -93,6 +95,7 @@ function Row(props: { row: Department }) {
 
 export const DepartmentList = () => {
 	const [departments, setDepartments] = useState<Department[] | undefined>();
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -100,36 +103,42 @@ export const DepartmentList = () => {
 				setDepartments(await api.listDepartments());
 			} catch (ex) {
 				console.error(ex);
+				setError(true);
 			}
 		})();
 	}, []);
 
-	if (!departments) {
-		return <p>Loading Departments...</p>;
-	} else if (departments.length === 0) {
+	if (error) {
+		return <GenericErrorMessage />;
+	} else if (departments && departments.length === 0) {
 		return <p>No departments</p>;
+	} else if (departments) {
+		return (
+			<TableContainer component={Paper}>
+				<Table aria-label="collapsible table">
+					<TableHead>
+						<TableRow>
+							<TableCell />
+							<TableCell sx={{ fontWeight: 'bold' }}>
+								Department ID
+							</TableCell>
+							<TableCell sx={{ fontWeight: 'bold' }}>
+								Department Name
+							</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{departments.map((row) => (
+							<Row key={row.name} row={row} />
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		);
 	}
-
 	return (
-		<TableContainer component={Paper}>
-			<Table aria-label="collapsible table">
-				<TableHead>
-					<TableRow>
-						<TableCell />
-						<TableCell sx={{ fontWeight: 'bold' }}>
-							Department ID
-						</TableCell>
-						<TableCell sx={{ fontWeight: 'bold' }}>
-							Department Name
-						</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{departments.map((row) => (
-						<Row key={row.name} row={row} />
-					))}
-				</TableBody>
-			</Table>
-		</TableContainer>
+		<Grid container spacing={3} justifyContent={'space-evenly'}>
+			<CircularProgress />
+		</Grid>
 	);
 };

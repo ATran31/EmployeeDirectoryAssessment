@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Typography } from '@mui/material';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import api from '../utils/api';
 import { Employee } from '../models/Models';
 import { GenericUserAvatar } from './GenericUserAvatar';
@@ -22,11 +22,10 @@ export const LinkedUser = (props: { employeeId: string }) => {
 	if (error) {
 		return (
 			<Typography>
-				Unable to load data. Please contact an administrator.
+				{`Unable to retrieve name for user ${props.employeeId}. If the issue persists please contact an administrator.`}
 			</Typography>
 		);
-	}
-	if (employee) {
+	}else if (employee) {
 		return (
 			<div style={{display: "flex"}}>
 				<GenericUserAvatar
@@ -39,6 +38,6 @@ export const LinkedUser = (props: { employeeId: string }) => {
 			</div>
 		);
 	} else {
-		return <Typography>Loading...</Typography>;
+		return <CircularProgress />;
 	}
 };
