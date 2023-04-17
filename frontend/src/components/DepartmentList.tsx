@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { LinkedUser } from './LinkedUser';
 
 function Row(props: { row: Department }) {
 	const { row } = props;
@@ -53,23 +54,31 @@ function Row(props: { row: Department }) {
 								gutterBottom
 								component="div"
 							>
-								Employees
+								{`${row.name} Members`}
 							</Typography>
 							<Table size="small" aria-label="purchases">
 								<TableHead>
 									<TableRow>
-										<TableCell>Employee ID</TableCell>
+										<TableCell sx={{ fontWeight: 'bold' }}>
+											Employee Name
+										</TableCell>
+										<TableCell sx={{ fontWeight: 'bold' }}>
+											Employee ID
+										</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{row.employeeIds.map((emp) => (
-										<TableRow key={emp}>
+									{row.employeeIds.map((employeeId) => (
+										<TableRow key={employeeId}>
 											<TableCell
 												component="th"
 												scope="row"
 											>
-												{emp}
+												<LinkedUser
+													employeeId={employeeId}
+												/>
 											</TableCell>
+											<TableCell>{employeeId}</TableCell>
 										</TableRow>
 									))}
 								</TableBody>
