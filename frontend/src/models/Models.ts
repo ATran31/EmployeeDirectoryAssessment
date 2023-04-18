@@ -4,7 +4,7 @@ export interface Employee {
 	name: string;
 	birthday: Date;
 	bio: string;
-	departmentId: string
+	departmentId: string[];
 }
 
 export interface Department {

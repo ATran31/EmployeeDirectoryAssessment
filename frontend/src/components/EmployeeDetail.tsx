@@ -35,11 +35,16 @@ export const EmployeeDetail = () => {
 		(async () => {
 			try {
 				let employee = await api.listEmployee(parseInt(id));
-				const department = await api.listDepartment(
-					parseInt(employee.departmentId)
+				const departments = await Promise.allSettled(
+					employee.departmentId.map((departmentId) => {
+						return api.listDepartment(parseInt(departmentId));
+					})
+				);
+				const departmentNames = departments.map((dept,idx) =>
+					dept.status === 'fulfilled' ? dept.value.name : `Unresolved Department${idx+1}`
 				);
 				const detailedEmployee: DetailedEmployee = { ...employee };
-				detailedEmployee.department = department.name;
+				detailedEmployee.department = departmentNames.join(', ');
 				setEmployee(detailedEmployee);
 			} catch (ex) {
 				console.error(ex);
